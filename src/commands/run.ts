@@ -1,6 +1,6 @@
 import chalk from 'chalk';
-import { loadConfig } from '../config.js';
-import { runCommandInProjects } from '../utils/runner.js';
+import { loadConfig } from '../config';
+import { runCommandInProjects } from '../utils/runner';
 
 interface RunOptions {
   cd?: boolean;

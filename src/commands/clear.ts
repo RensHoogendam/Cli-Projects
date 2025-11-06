@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import inquirer from 'inquirer';
-import { loadConfig, saveConfig } from '../config.js';
+import { loadConfig, saveConfig } from '../config';
 
 interface ClearOptions {
   yes?: boolean;

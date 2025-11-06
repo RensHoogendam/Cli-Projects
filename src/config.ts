@@ -2,7 +2,7 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
 import { homedir } from 'os';
 import { join, dirname } from 'path';
 import { load, dump } from 'js-yaml';
-import { Config, Group } from './types.js';
+import { Config, Group } from './types';
 
 /**
  * Get the config file path following XDG standards

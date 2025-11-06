@@ -1,6 +1,6 @@
 import chalk from 'chalk';
-import { loadConfig, saveConfig } from '../config.js';
-import { Config } from '../types.js';
+import { loadConfig, saveConfig } from '../config';
+import { Config } from '../types';
 
 /**
  * Add a project to an existing group

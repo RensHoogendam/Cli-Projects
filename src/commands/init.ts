@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import inquirer from 'inquirer';
-import { initConfig, getConfigPath } from '../config.js';
-import { installCompletion } from '../completion.js';
+import { initConfig, getConfigPath } from '../config';
+import { installCompletion } from '../completion';
 
 export async function initCommand(): Promise<void> {
   initConfig();

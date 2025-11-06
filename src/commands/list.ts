@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import { existsSync } from 'fs';
 import { join } from 'path';
-import { loadConfig } from '../config.js';
+import { loadConfig } from '../config';
 
 export function listCommand(groupName?: string): void {
   const config = loadConfig();

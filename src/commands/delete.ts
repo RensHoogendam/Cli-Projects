@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import { loadConfig, saveConfig } from '../config.js';
+import { loadConfig, saveConfig } from '../config';
 
 export function deleteCommand(groupName: string): void {
   const config = loadConfig();

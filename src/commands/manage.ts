@@ -2,7 +2,7 @@ import chalk from 'chalk';
 import inquirer from 'inquirer';
 import { existsSync, readdirSync, statSync } from 'fs';
 import { join } from 'path';
-import { loadConfig, saveConfig } from '../config.js';
+import { loadConfig, saveConfig } from '../config';
 
 export async function manageCommand(groupName?: string): Promise<void> {
   const config = loadConfig();

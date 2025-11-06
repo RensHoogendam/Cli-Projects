@@ -2,7 +2,7 @@ import { exec } from 'child_process';
 import { promisify } from 'util';
 import chalk from 'chalk';
 import ora from 'ora';
-import { Group } from '../types.js';
+import { Group } from '../types';
 import { join } from 'path';
 import { existsSync } from 'fs';
 

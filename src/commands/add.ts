@@ -2,8 +2,8 @@ import chalk from 'chalk';
 import inquirer from 'inquirer';
 import { existsSync, readdirSync, statSync } from 'fs';
 import { join } from 'path';
-import { loadConfig, saveConfig } from '../config.js';
-import { Config } from '../types.js';
+import { loadConfig, saveConfig } from '../config';
+import { Config } from '../types';
 
 interface AddOptions {
   scan?: boolean;
