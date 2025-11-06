@@ -1,4 +1,3 @@
-import chalk from 'chalk';
 import { installCompletion, uninstallCompletion } from '../completion';
 
 export async function completionCommand(action?: string) {
