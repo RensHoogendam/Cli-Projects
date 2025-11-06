@@ -1,78 +1,76 @@
 #!/usr/bin/env node
 
-interface ProjectCommand {
-  name: string;
-  description: string;
-}
+import { Command } from 'commander';
+import { setupCompletions } from './completion';
+import { initCommand } from './commands/init';
+import { addCommand } from './commands/add';
+import { addProjectCommand } from './commands/add-project';
+import { deleteCommand } from './commands/delete';
+import { clearCommand } from './commands/clear';
+import { listCommand } from './commands/list';
+import { showCommand } from './commands/show';
+import { runCommand } from './commands/run';
+import { completionCommand } from './commands/completion';
+import { withErrorHandling } from './utils/error-handler';
 
-class ProjectsCLI {
-  private commands: ProjectCommand[] = [
-    { name: 'init', description: 'Initialize a new project' },
-    { name: 'list', description: 'List all projects' },
-    { name: 'create', description: 'Create a new project' }
-  ];
+const program = new Command();
 
-  public run(): void {
-    const args: string[] = process.argv.slice(2);
-    
-    if (args.length === 0) {
-      this.showHelp();
-      return;
-    }
+program
+  .name('projects')
+  .description('Execute commands across multiple projects')
+  .version('1.0.0');
 
-    const command: string = args[0];
-    
-    switch (command) {
-      case 'init':
-        this.initProject();
-        break;
-      case 'list':
-        this.listProjects();
-        break;
-      case 'create':
-        this.createProject(args[1]);
-        break;
-      case '--help':
-      case '-h':
-        this.showHelp();
-        break;
-      default:
-        console.log(`Unknown command: ${command}`);
-        this.showHelp();
-    }
-  }
+program
+  .command('init')
+  .description('Initialize configuration file')
+  .action(withErrorHandling(initCommand));
 
-  private showHelp(): void {
-    console.log('Projects CLI Tool\n');
-    console.log('Usage: projects <command> [options]\n');
-    console.log('Commands:');
-    this.commands.forEach(cmd => {
-      console.log(`  ${cmd.name.padEnd(10)} ${cmd.description}`);
-    });
-    console.log('  --help     Show this help message');
-  }
+program
+  .command('add-group [group-name] [base-path]')
+  .description('Add a new project group (interactive if no arguments)')
+  .option('-s, --scan', 'Auto-scan and add all directories as projects')
+  .action(withErrorHandling(addCommand));
 
-  private initProject(): void {
-    console.log('Initializing new project...');
-    // Add your project initialization logic here
-  }
+program
+  .command('add-project <group> [project]')
+  .description('Add a project to a group (uses current directory if not provided)')
+  .action(withErrorHandling(addProjectCommand));
 
-  private listProjects(): void {
-    console.log('Listing all projects...');
-    // Add your project listing logic here
-  }
+program
+  .command('delete <group>')
+  .aliases(['remove', 'rm'])
+  .description('Delete a project group')
+  .action(withErrorHandling(deleteCommand));
 
-  private createProject(name?: string): void {
-    if (!name) {
-      console.log('Error: Project name is required');
-      console.log('Usage: projects create <project-name>');
-      return;
-    }
-    console.log(`Creating project: ${name}`);
-    // Add your project creation logic here
-  }
-}
+program
+  .command('clear')
+  .aliases(['reset'])
+  .description('Clear all groups from config')
+  .option('-y, --yes', 'Skip confirmation prompt')
+  .action(withErrorHandling(clearCommand));
 
-// Run the CLI
-const cli = new ProjectsCLI();
-cli.run();
+program
+  .command('list')
+  .description('List all project groups')
+  .action(withErrorHandling(listCommand));
+
+program
+  .command('show <group>')
+  .description('Show projects in a group')
+  .action(withErrorHandling(showCommand));
+
+program
+  .command('run <group> [command...]')
+  .description('Run a command across all projects in a group')
+  .option('-n, --no-cd', 'Run from base directory (not in each project)')
+  .option('-d, --dry-run', 'Show what would be executed without running')
+  .action(withErrorHandling(runCommand));
+
+program
+  .command('completion [action]')
+  .description('Manage shell completions (install/uninstall)')
+  .action(withErrorHandling(completionCommand));
+
+setupCompletions();
+program.parse();
+
