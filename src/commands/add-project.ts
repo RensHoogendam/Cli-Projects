@@ -1,5 +1,23 @@
 import chalk from 'chalk';
-import { loadConfig, saveConfig, addProjectToGroup } from '../config.js';
+import { loadConfig, saveConfig } from '../config.js';
+import { Config } from '../types.js';
+
+/**
+ * Add a project to an existing group
+ */
+function addProjectToGroup(config: Config, groupName: string, projectName: string): void {
+  if (!config.groups[groupName]) {
+    throw new Error(`Group '${groupName}' does not exist`);
+  }
+  
+  const group = config.groups[groupName];
+  
+  if (group.projects.includes(projectName)) {
+    throw new Error(`Project '${projectName}' already exists in group '${groupName}'`);
+  }
+  
+  group.projects.push(projectName);
+}
 
 export function addProjectCommand(groupName: string, projectName: string | undefined): void {
   const config = loadConfig();

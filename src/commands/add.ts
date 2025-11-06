@@ -2,10 +2,25 @@ import chalk from 'chalk';
 import inquirer from 'inquirer';
 import { existsSync, readdirSync, statSync } from 'fs';
 import { join } from 'path';
-import { loadConfig, saveConfig, addGroup } from '../config.js';
+import { loadConfig, saveConfig } from '../config.js';
+import { Config } from '../types.js';
 
 interface AddOptions {
   scan?: boolean;
+}
+
+/**
+ * Add a new group to the config
+ */
+function addGroup(config: Config, groupName: string, basePath: string, projects: string[] = []): void {
+  if (config.groups[groupName]) {
+    throw new Error(`Group '${groupName}' already exists`);
+  }
+  
+  config.groups[groupName] = {
+    base: basePath,
+    projects: projects,
+  };
 }
 
 export async function addCommand(
