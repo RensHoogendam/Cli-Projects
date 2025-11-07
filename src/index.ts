@@ -58,8 +58,8 @@ program
   .action(withErrorHandling(listCommand));
 
 program
-  .command('manage [group]')
-  .description('Interactively manage projects in a group')
+  .command('manage [group] [project]')
+  .description('Interactively manage a group or project')
   .action(withErrorHandling(manageCommand));
 
 program
